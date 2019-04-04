@@ -20,3 +20,68 @@ BKCal_Data = Data(1:12,13);
 BKFat_Data = Data(1:12,14);
 BKCarbs_Data = Data(1:12,15);
 BKChol_Data = Data(1:12,16);
+InputWt = inputdlg('Enter your weight in lbs');% lbs
+wtlbs = str2double(InputWt); %change to num
+wtkg = wtlbs ./ 2.205;%kg
+
+%InputHt = inputdlg('Enter your height in inches.(Remember there are 12 inches in a foot)');% lbs
+prompt = {'Enter number of feet','Enter number of inches'};
+dlgtitle = 'Height';
+dims = [1 35];
+definput = {'5','0'};
+InputHt = inputdlg(prompt,dlgtitle,dims,definput);
+ht = str2double(InputHt); %change to num
+htin = ht(1)*12 + ht(2);
+htm = htin / 39.37;% m
+
+Calories = 500; %calories
+
+kCalPHourWalking = 3.5*wtkg;
+kCalPHourBurpee = 8*wtkg;
+kCalPHourJogging = 7*wtkg;
+
+HowLongWalk = round(Calories/kCalPHourWalking,1);
+HowLongBurpee = round(Calories/kCalPHourBurpee,1);
+HowLongJogging = round(Calories/kCalPHourJogging,1);
+
+BMI = @(weight,height) weight./(height.^2);
+weightvec = linspace(45,200,10);
+heightvec = linspace(1.6,2.1,10);
+[xmat, ymat] = meshgrid(weightvec,heightvec);
+zmat = BMI(xmat,ymat);
+
+contourf(weightvec,heightvec,zmat)
+xlabel('Weight [lbs]');
+ylabel('Height [inches]');
+%clegendm(
+hold on
+plot(wtkg,htm,'ko','MarkerFaceColor','r');
+colorbar
+%PLot numbers on graph and have a circle appear around the person's BMI
+Walk = num2str(HowLongWalk);
+Burpee = num2str(HowLongBurpee);
+Jog = num2str(HowLongJogging);
+
+Message1 = "You would have to walk for ";
+Message2 = " hours, burpee for ";
+Message3 = " hours, or jog for ";
+Message4 = " hours to burn off the calories from this meal. Have fun! By the way, your BMI is ";
+BMI = wtkg/(htm)^2; %Height in m
+Message5 = ".";
+YourBMI = num2str(BMI);
+if BMI < 18.5
+    Message6 = "This BMI is considered underweight.";
+elseif BMI < 24.9
+    Message6 = "This BMI is considered normal weight.";
+elseif BMI < 29.9
+    Message6 = "This BMI is considered overweight.";
+elseif BMI < 34.9
+    Message6 = "This BMI is considered class I obesity.";
+elseif BMI < 39.9
+    Message6 = "This BMI is considered class II obesity.";
+else
+    Message6 = "This BMI is considered class III obesity.";
+end
+Message = strcat(Message1,Walk,Message2,Burpee,Message3,Jog,Message4,YourBMI,Message5,Message6);
+
+f = msgbox(Message);
