@@ -1,0 +1,22 @@
+clear all
+clc
+
+Data = xlsread('ProjectPortion.xlsx');
+
+[~,McD_Data] = xlsread('ProjectPortion.xlsx','B3:B12');
+McDCal_Data= Data(1:12,3);
+McDFat_Data= Data(1:12,4);
+McDCarbs_Data = Data(1:12,5);
+McDChol_Data = Data(1:12,6);
+
+[~,Wendys_Data] = xlsread('ProjectPortion.xlsx','G3:G12');
+WendyCal_Data = Data(1:12,8);
+WendyFat_Data = Data(1:12,9);
+WendyCarbs_Data = Data(1:12,10);
+WendyChol_Data = Data(1:12,11);
+
+[~,BK_Data] = xlsread('ProjectPortion.xlsx','L3:L12');
+BKCal_Data = Data(1:12,13);
+BKFat_Data = Data(1:12,14);
+BKCarbs_Data = Data(1:12,15);
+BKChol_Data = Data(1:12,16);
